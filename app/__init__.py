@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
-from app.shared import shared
+from shared_resources.shared import shared
 import threading
 from app.background_process import be_run
 

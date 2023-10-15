@@ -1,6 +1,6 @@
 import torch
 from transformers import AutoTokenizer, pipeline
-from app.shared import shared
+from shared_resources.shared import shared
 from dotenv import load_dotenv
 import os
 
@@ -35,4 +35,4 @@ def be_run():
 
         id, question = question_obj
         answer = llm_answer(question=question)
-        shared.update_response((id, answer))
+        shared.update_response((id, answer), schedule_sec=60*60)
