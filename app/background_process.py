@@ -29,10 +29,14 @@ def llm_answer(question, max_length: int = 3000):
 
 def be_run():
     while True:
-        question_obj = shared.get_question()
-        if not question_obj:
+        query_obj = shared.get_query()
+        if not query_obj:
             continue
+        id = query_obj["id"]
+        system_prompt = query_obj.get("system", "")
+        user_prompt = query_obj["user"]
 
-        id, question = question_obj
+        question = f"""<s>[INST]<<SYS>>{system_prompt}<</SYS>>{user_prompt}[/INST]"""
         answer = llm_answer(question=question)
+
         shared.update_response((id, answer), schedule_sec=60*60)

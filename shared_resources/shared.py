@@ -10,6 +10,7 @@ import time
 class Shared:
     def __init__(self, num_digits: int = 12) -> None:
         self.queue: List[Tuple[str, str]] = []
+        self.query_queue: List[Dict[str, str]] = []
         self.responses: Dict[str, Optional[str]] = {}
         self.num_digits = num_digits
 
@@ -27,10 +28,31 @@ class Shared:
         next_question = self.queue.pop(0)
         return next_question
 
+    def get_query(self) -> Optional[Dict[str, str]]:
+        if len(self.query_queue) == 0:
+            return None
+        next_query = self.query_queue.pop(0)
+        if not type(next_query) is dict:
+            raise TypeError("Must query with dict Dict[str, str]")
+        return next_query
+
+    def _add_query(self, new_query: Dict[str, str]) -> bool:
+        self.query_queue.append(new_query)
+        return True
+        
     def _add_question(self, new_question: Tuple[str, str]) -> bool:
         self.queue.append(new_question)
         return True
 
+    def add_query(self, user: str, system: str, history: List[Dict[str, str]] = None) -> Optional[str]:
+        #fixme: history currently disable
+        id = self.get_id()
+        query = {'id': id, 'system': system, 'user': user}
+        if self._add_query(query):
+            return id
+        else:
+            return None
+        
     def add_question(self, question: str) -> Optional[str]:
         id = self.get_id()
         if self._add_question((id, question)):

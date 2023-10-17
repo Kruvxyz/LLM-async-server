@@ -22,9 +22,9 @@ def state():
 @cross_origin()
 def query():
     data = request.get_json()
-    question = data.get("query")
-    system = data.get("system", None)
-    id = shared.add_question(question)
+    user_prompt = data.get("prompt")
+    system = data.get("system", "")
+    id = shared.add_query(user=user_prompt, system=system)
     return jsonify({"status": "ok", "id": id})
 
 
