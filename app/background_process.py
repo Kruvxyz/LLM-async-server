@@ -10,17 +10,16 @@ CUDA = os.getenv("CUDA", False)
 TOKEN = os.getenv("HF_TOKEN")
 MODEL = os.getenv("MODEL")
 
-
-tokenizer = AutoTokenizer.from_pretrained(MODEL, token=TOKEN)
+tokenizer = AutoTokenizer.from_pretrained(MODEL, use_auth_token=TOKEN)
 device = 'cpu'
 if CUDA:
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     torch.cuda.empty_cache()
     dtype = torch.float16
     pipe = pipeline("text-generation", model=MODEL,
-                    token=TOKEN, torch_dtype=dtype, device=device)
+                    use_auth_token=TOKEN, torch_dtype=dtype, device=device)
 else:
-    pipe = pipeline("text-generation", model=MODEL, token=TOKEN)
+    pipe = pipeline("text-generation", model=MODEL, use_auth_token=TOKEN)
 
 
 def llm_answer(question, max_length: int = 3000):

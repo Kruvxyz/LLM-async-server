@@ -1,4 +1,5 @@
 python-dotenv
+scipy==1.11.3
 
 # huggingface
 accelerate==0.21.0
