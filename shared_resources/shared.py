@@ -9,7 +9,7 @@ import time
 @singleton
 class Shared:
     def __init__(self, num_digits: int = 12) -> None:
-        self.queue: List[Tuple[str, str]] = []
+        self.queue: List[Tuple[str, str]] = [] #fixme: cleanup with related question functions
         self.query_queue: List[Dict[str, str]] = []
         self.responses: Dict[str, Optional[str]] = {}
         self.num_digits = num_digits
